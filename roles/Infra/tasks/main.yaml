@@ -10,6 +10,8 @@
   loop: "{{python_dependencies}}"
 - name: create ec2_instance
   amazon.aws.ec2_instance:
+    aws_access_key: "{{aws_access_key}}"
+    aws_secret_key: "{{aws_secret_key}}"
     instance_type: t3.micro
     name: "{{item}}"
     security_groups:
