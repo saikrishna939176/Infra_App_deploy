@@ -8,7 +8,7 @@
     region: us-east-1
     key_name: "key"
     tags:
-      Name: "{{}}"item
+      Name: "{{item}}"
     state: "{{ ec2_state }}"
   loop: "{{ instances }}"
   register: ec2_instances
