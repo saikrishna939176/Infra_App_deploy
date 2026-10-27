@@ -3,3 +3,4 @@ login_host: db.sharada.store
 DB_HOST: db.sharada.store
 app_location: /app
 Component: backend
+mysql_root_password: ExpenseApp@1
