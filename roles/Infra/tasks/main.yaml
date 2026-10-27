@@ -2,7 +2,7 @@
   ansible.builtin.pip:
     name: "{{item}}"
     state: present
-  loop: "{{python-dependencies}}"
+  loop: "{{python_dependencies}}"
 - name: create ec2_instance
   amazon.aws.ec2_instance:
     instance_type: t3.micro

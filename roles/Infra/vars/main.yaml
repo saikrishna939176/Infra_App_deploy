@@ -5,6 +5,6 @@ instances:
 - db
 - backend
 - frontend
-python-dependencies:
+python_dependencies:
 - botocore
 - boto3
