@@ -3,4 +3,4 @@
   gather_facts: false
   become: yes
   roles:
-  - role: "{{component}}"
+  - "{{component}}"

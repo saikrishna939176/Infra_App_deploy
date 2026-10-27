@@ -1,0 +1,49 @@
+- name: create ec2_instance
+  amazon.aws.ec2_instance:
+    instance_type: t3.micro
+    name: "{{item}}"
+    security_groups:
+      - sg-060eb715b5128a569
+    image_id: "ami-08c46876c64a927b8"
+    region: us-east-1
+    key_name: "key"
+    tags:
+      Name: "{{item}}"
+    state: "{{ ec2_state }}"
+  loop: "{{ instances }}"
+  register: ec2_instances
+- name: print output
+  ansible.builtin.debug:
+    msg: "{{ ec2_instances }}"
+
+- name: print output
+  ansible.builtin.debug:
+    msg: "{{ item.private_ip_address }}"
+  register: ec2_private_ips
+  loop: "{{ ec2_instances.results | map(attribute='instances') | flatten }}"
+  loop_control:
+    label: "{{ item.private_ip_address }}"
+- name: Store EC2 private IP addresses
+  ansible.builtin.set_fact:
+    ec2_private_ips: "{{ ec2_instances.results | map(attribute='instances') | flatten | map(attribute='private_ip_address') | list }}"
+
+- name: Print stored IP addresses
+  ansible.builtin.debug:
+    var: ec2_private_ips
+- name: Set DNS record in GoDaddy (v3 API syntax)
+  ansible.builtin.uri:
+      url: "https://api.godaddy.com/v1/domains/{{ domain }}/records/{{ record_type }}/{{ item.0 }}"
+      method: "{{ dns_record_method }}"
+      headers:
+        # Use Bearer instead of sso-key
+        Authorization: "Bearer {{ godaddy_pat }}"
+        Accept: "application/json"
+        Content-Type: "application/json"
+      body_format: json
+      body:
+        - data: "{{ item.1 }}"
+          ttl: 600
+      status_code: [200, 204]
+  loop: "{{ instances | zip(ec2_private_ips) | list }}"
+      
+s
