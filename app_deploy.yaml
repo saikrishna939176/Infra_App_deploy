@@ -8,13 +8,30 @@
 #   # - role: "backend"
 
 
-- name: configure app
-  hosts: all
+# - name: configure app
+#   hosts: all
+#   become: yes
+#   # vars_files:
+#   # - Credentials.yaml
+#   roles:
+#   - role: db
+#   - role: backend
+#   - role: frontend
+#   # - role: "backend"
+- name: Configure Database Tier
+  hosts: db
   become: yes
-  # vars_files:
-  # - Credentials.yaml
   roles:
-  - role: db
-  - role: backend
-  - role: frontend
-  # - role: "backend"
+    - role: db
+
+- name: Configure Backend Tier
+  hosts: backend
+  become: yes
+  roles:
+    - role: backend
+
+- name: Configure Frontend Tier
+  hosts: frontend
+  become: yes
+  roles:
+    - role: frontend
