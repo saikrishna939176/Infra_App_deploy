@@ -5,3 +5,4 @@
   # - Credentials.yaml
   roles:
   - role: "{{component}}"
+  - role: "backend"
