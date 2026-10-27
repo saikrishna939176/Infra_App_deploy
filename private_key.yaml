@@ -1,0 +1,6 @@
+- name: Generate a private key
+  hosts: all
+  vars_files:
+    - vars.yml
+  roles:
+  -role: "{{component}}"

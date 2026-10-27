@@ -1,0 +1,22 @@
+- name: Ensure .ssh directory exists for ec2-user
+  ansible.builtin.file:
+    path: /home/ec2-user/.ssh
+    state: directory
+    owner: ec2-user
+    group: ec2-user
+    mode: '0700'
+
+- name: Import private key string onto the host
+  ansible.builtin.copy:
+    content: "{{ my_private_key }}"
+    dest: /home/ec2-user/.ssh/ansible-keys
+    owner: ec2-user
+    group: ec2-user
+    mode: '0600'
+  no_log: true
+- name: Set ownership and permissions for the private key
+  ansible.builtin.file:
+    path: /home/ec2-user/.ssh/ansible-keys
+    owner: ec2-user
+    group: ec2-user
+    mode: '0600'
