@@ -1,8 +1,20 @@
-- name: configure "{{component}}"
-  hosts: "{{component}}"
+# - name: configure "{{component}}"
+#   hosts: "{{component}}"
+#   become: yes
+#   # vars_files:
+#   # - Credentials.yaml
+#   roles:
+#   - role: "{{component}}"
+#   # - role: "backend"
+
+
+- name: configure app
+  hosts: all
   become: yes
   # vars_files:
   # - Credentials.yaml
   roles:
-  - role: "{{component}}"
+  - role: db
+  - role: backend
+  - role: frontend
   # - role: "backend"
