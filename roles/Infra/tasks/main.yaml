@@ -42,7 +42,7 @@
 #     var: ec2_private_ips
 - name: Set DNS record in GoDaddy (v3 API syntax)
   ansible.builtin.uri:
-    url: "https://godaddy.com{{ domain }}/records/{{ record_type }}/{{ item.item }}"
+    url: "https://api.godaddy.com/v1/domains/{{ domain }}/records/{{ record_type }}/{{ item.item }}"
     method: "{{ dns_record_method }}"
     headers:
       Authorization: "Bearer {{ godaddy_pat }}"
