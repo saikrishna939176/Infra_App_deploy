@@ -3,4 +3,4 @@
   vars_files:
     - vars.yml
   roles:
-  -role: "{{component}}"
+  - role: "{{component}}"
