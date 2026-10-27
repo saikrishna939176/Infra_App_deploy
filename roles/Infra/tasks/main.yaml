@@ -42,20 +42,26 @@
 #     var: ec2_private_ips
 - name: Set DNS record in GoDaddy (v3 API syntax)
   ansible.builtin.uri:
-      url: "https://api.godaddy.com/v1/domains/{{ domain }}/records/{{ record_type }}/{{ item.0 }}"
-      method: "{{ dns_record_method }}"
-      headers:
-        # Use Bearer instead of sso-key
-        Authorization: "Bearer {{ godaddy_pat }}"
-        Accept: "application/json"
-        Content-Type: "application/json"
-      body_format: json
-      body:
-        - data: "{{ (item.item in public_instances) | ternary(item.instances[0].public_ip_address, item.instances[0].private_ip_address) }}"
-          ttl: 600
-      status_code: [200, 204]
-  #loop: "{{ instances | zip(ec2_private_ips) | list }}"
+    url: "https://godaddy.com{{ domain }}/records/{{ record_type }}/{{ item.item }}"
+    method: "{{ dns_record_method }}"
+    headers:
+      Authorization: "Bearer {{ godaddy_pat }}"
+      Accept: "application/json"
+      Content-Type: "application/json"
+    body_format: json
+    body:
+      - data: >-
+          {{ 
+            (item.item in public_instances) | 
+            ternary(
+              item.instances | map(attribute='public_ip_address') | first, 
+              item.instances | map(attribute='private_ip_address') | first
+            ) 
+          }}
+        ttl: 600
+    status_code: [200, 204]
   loop: "{{ ec2_instances.results }}"
   loop_control:
-      label: "Configuring DNS for {{ item.item }}"
+    label: "Configuring DNS for {{ item.item }}"
+
         
