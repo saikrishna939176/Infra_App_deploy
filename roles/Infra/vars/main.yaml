@@ -8,3 +8,5 @@ instances:
 python_dependencies:
 - botocore
 - boto3
+public_instances:
+- frontend

@@ -51,7 +51,11 @@
         Content-Type: "application/json"
       body_format: json
       body:
-        - data: "{{ item.1 }}"
+        - data: "{{ (item.item in public_instances) | ternary(item.instances[0].public_ip_address, item.instances[0].private_ip_address) }}"
           ttl: 600
       status_code: [200, 204]
-  loop: "{{ instances | zip(ec2_private_ips) | list }}"
+  #loop: "{{ instances | zip(ec2_private_ips) | list }}"
+  loop: "{{ ec2_instances.results }}"
+  loop_control:
+      label: "Configuring DNS for {{ item.item }}"
+        
