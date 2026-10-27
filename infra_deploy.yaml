@@ -1,6 +1,5 @@
 - name: create aws ec2 & configure godaddy dns record
   hosts: localhost
   gather_facts: false
-  become: yes
   roles:
   - "{{component}}"
