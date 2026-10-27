@@ -1,3 +1,8 @@
+- name: Ensure python3-pip is installed
+  ansible.builtin.dnf:
+    name: python3-pip
+    state: present
+  become: yes
 - name: install botocore & boto3
   ansible.builtin.pip:
     name: "{{item}}"
