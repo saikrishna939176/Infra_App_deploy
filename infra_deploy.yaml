@@ -1,5 +1,7 @@
 - name: create aws ec2 & configure godaddy dns record
   hosts: localhost
   gather_facts: false
+  vars_files:
+  - AWS_Key.yaml
   roles:
   - "{{component}}"
