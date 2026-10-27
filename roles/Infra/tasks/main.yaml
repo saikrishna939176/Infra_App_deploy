@@ -9,6 +9,8 @@
     state: present
   loop: "{{python_dependencies}}"
 - name: create ec2_instance
+  tags:
+  - ec2_instance
   amazon.aws.ec2_instance:
     aws_access_key: "{{aws_access_key}}"
     aws_secret_key: "{{aws_secret_key}}"
