@@ -1,11 +1,11 @@
-# - name: configure "{{component}}"
-#   hosts: "{{component}}"
-#   become: yes
-#   # vars_files:
-#   # - Credentials.yaml
-#   roles:
-#   - role: "{{component}}"
-#   # - role: "backend"
+- name: configure "{{component}}"
+  hosts: "{{component}}"
+  become: yes
+  # vars_files:
+  # - Credentials.yaml
+  roles:
+  - role: "{{component}}"
+  # - role: "backend"
 
 
 # - name: configure app
@@ -18,20 +18,20 @@
 #   - role: backend
 #   - role: frontend
 #   # - role: "backend"
-- name: Configure Database Tier
-  hosts: db
-  become: yes
-  roles:
-    - role: db
+# - name: Configure Database Tier
+#   hosts: db
+#   become: yes
+#   roles:
+#     - role: db
 
-- name: Configure Backend Tier
-  hosts: backend
-  become: yes
-  roles:
-    - role: backend
+# - name: Configure Backend Tier
+#   hosts: backend
+#   become: yes
+#   roles:
+#     - role: backend
 
-- name: Configure Frontend Tier
-  hosts: frontend
-  become: yes
-  roles:
-    - role: frontend
+# - name: Configure Frontend Tier
+#   hosts: frontend
+#   become: yes
+#   roles:
+#     - role: frontend
